@@ -8,3 +8,19 @@ n3 = float(input("Nota 3: "))
 notas.append(n3)
 n4 = float(input("Nota 4: "))
 notas.append(n4)
+
+soma = 0 
+for n in notas :
+    soma = soma + n
+
+media = soma / 4 
+
+print("media:", media )
+
+
+if media >= 7:
+    print("aprovados")
+elif media >= 5:
+    print("recuperação")
+else:
+    print("reprovados")
