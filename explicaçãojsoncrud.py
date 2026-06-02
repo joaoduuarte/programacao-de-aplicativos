@@ -126,25 +126,38 @@ def atualizar():
              #Essa linha encerra a execução da função imediatamente e volta para o ponto onde ela foi chamada
             
     print("Aluno não encontrado.")
+    #Essa linha de código avisa ao usuário que o aluno procurado não está cadastrado.
 
 def excluir():
+    #Essa linha inicia a criação de uma função para remover um aluno do seu sistema.
     print("\n--- Excluir Aluno ---")
+    #Essa linha serve para organizar e enfeitar a tela do seu programa, criando um cabeçalho claro para o usuário.
     if not os.path.exists(BANCO_DADOS):
+        #Essa linha verifica se o arquivo que guarda os dados dos alunos existe no computador antes de tentar abri-lo.
         print("Nenhum aluno cadastrado no sistema.")
+        #Essa linha avisa ao usuário que o sistema está completamente vazio, sem nenhuma informação salva ainda.
         return
          #Essa linha encerra a execução da função imediatamente e volta para o ponto onde ela foi chamada
 
     with open(BANCO_DADOS, 'r', encoding='utf-8') as f:
+        #Essa linha serve para abrir o seu arquivo de dados com segurança para ler as informações dos alunos salvos no computador.
         alunos = json.load(f)
+        #Essa linha pega todo o texto que estava guardado dentro do arquivo e o transforma magicamente em uma lista ou dicionário que o Python consegue entender e mexer.
         
     id_busca = int(input("Digite o ID do aluno que deseja remover: "))
+    #Essa linha pede para o usuário digitar o número de identificação (ID) do aluno e já converte essa resposta em um número inteiro para que o programa possa fazer a busca.
     
     nova_lista = [a for a in alunos if a['id'] != id_busca]
+    #Essa linha usa um recurso do Python chamado List Comprehension (compreensão de lista) para criar uma lista novinha em folha, trazendo todos os alunos, exceto aquele que tem o ID que você deseja apagar.
     
     if len(nova_lista) < len(alunos):
+        #Essa linha serve para descobrir se o aluno digitado foi encontrado e removido com sucesso do sistema.
         with open(BANCO_DADOS, 'w', encoding='utf-8') as f:
+            #Essa linha abre o seu arquivo de dados, mas agora com uma intenção diferente: ela se prepara para salvar e atualizar as informações, gravando a nova lista de alunos no computador.
             json.dump(nova_lista, f, indent=4, ensure_ascii=False)
+            #Essa linha de código salva a sua lista atualizada de alunos de volta no arquivo do computador, gravando a exclusão de forma definitiva.
         print("Aluno removido com sucesso!")
+        #Essa linha é a confirmação final que dá um desfecho positivo para o usuário, avisando que todo o processo funcionou e o aluno foi apagado do sistema.
     else:
         #indica a parte do código que será executada caso a condição do if seja falsa.
         print("Aluno não encontrado.")
