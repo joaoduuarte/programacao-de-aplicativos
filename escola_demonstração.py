@@ -75,7 +75,7 @@ while True:
         listar_professores()
 
     elif opcao == "3":
-        print("Encerrando programa...")
+        print("Encerrando programa")
         break
 
     else:
