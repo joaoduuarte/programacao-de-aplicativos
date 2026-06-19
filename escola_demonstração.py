@@ -12,6 +12,9 @@ CREATE TABLE IF NOT EXISTS escola (
     cpf TEXT,
     salario REAL,
     escola TEXT
+
+    id_professor INTERGER,
+    FOREIGN KEY (id_professor) REFERENCES professor
 )
 """)
 
@@ -82,3 +85,4 @@ while True:
         print("Opção inválida! Tente novamente.")
 
 campos.close()
+
