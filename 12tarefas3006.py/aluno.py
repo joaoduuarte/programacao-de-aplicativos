@@ -21,3 +21,35 @@ def vincular_aluno_turma():
 # ele não é tratado pelo `except sqlite3.Error`.
 
 print("==== codigo certo =====")
+
+import sqlite3
+
+def vincular_aluno_turma():
+    nome = input("Nome do aluno: ")
+    conexao = None
+
+    try:
+                id_turma = int(input("Digite o ID numérico da turma: "))
+
+                conexao = sqlite3.connect("sistema_escola.db")
+        cursor = conexao.cursor()
+
+                cursor.execute(
+            "INSERT INTO alunos (nome, id_turma) VALUES (?, ?)",
+            (nome, id_turma)
+        )
+
+        conexao.commit()
+        print("Aluno vinculado à turma com sucesso!")
+
+    except ValueError:
+        print("Erro: o ID da turma deve ser um número inteiro.")
+
+    except sqlite3.Error as erro:
+        print(f"Erro no banco de dados: {erro}")
+
+    finally:
+        if conexao is not None:
+            conexao.close()
+
+vincular_aluno_turma()
