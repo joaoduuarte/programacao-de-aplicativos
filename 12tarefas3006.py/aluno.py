@@ -1,55 +1,41 @@
-import sqlite3
-
-def vincular_aluno_turma():
-    nome = input ("nome do aluno : ")
-    #se o usuario digitar " turma B" em vez do numero do id< o sistema quebra.
-    # o try/ except abaixo falhou em capturar esse erro. qual o problema?
-    try :
-        id_turma = int(input("digite o id numerico da truma: "))
-
-        conexao = sqlite3.connect(' sistema_escola.db')
-        cursor = conexao.cursor()
-        cursor.execute("INSERT INTO alunos (nome, id_turma) VALEUS (?, ?)", (nome, id_turma))
-        conexao.commit()
-    except sqlite3. error: 
-        print("error no bamco de dados!")
-    finally: 
-        conexao.close()
-
-# O erro acontece porque o Python tenta converter um texto em número usando `int()`.
-#  Como isso gera um `ValueError` (erro do Python), e não um `sqlite3.Error` (erro do banco de dados), 
-# ele não é tratado pelo `except sqlite3.Error`.
-
-print("==== codigo certo =====")
+import sqlite3 
+ 
+def vincular_aluno_turma(): 
+	nome = input("Nome do aluno: ") 
+	# Se o usuário digitar "Turma B" em vez do número do ID, o sistema quebra. 
+	# O try/except abaixo falhou em capturar esse erro. Qual o problema? 
 
 import sqlite3
 
 def vincular_aluno_turma():
-    nome = input("Nome do aluno: ")
-    conexao = None
-
     try:
-                id_turma = int(input("Digite o ID numérico da turma: "))
+        nome = input("Nome do aluno: ")
+        turma_id = int(input("ID da turma: "))
 
-                conexao = sqlite3.connect("sistema_escola.db")
-        cursor = conexao.cursor()
+        conn = sqlite3.connect("escola.db")
+        cursor = conn.cursor()
 
-                cursor.execute(
-            "INSERT INTO alunos (nome, id_turma) VALUES (?, ?)",
-            (nome, id_turma)
+        cursor.execute(
+            "INSERT INTO aluno_turma (nome_aluno, turma_id) VALUES (?, ?)",
+            (nome, turma_id)
         )
 
-        conexao.commit()
+        conn.commit()
         print("Aluno vinculado à turma com sucesso!")
 
     except ValueError:
         print("Erro: o ID da turma deve ser um número inteiro.")
 
-    except sqlite3.Error as erro:
-        print(f"Erro no banco de dados: {erro}")
+    except sqlite3.Error as e:
+        print(f"Erro no banco de dados: {e}")
 
     finally:
-        if conexao is not None:
-            conexao.close()
+        try:
+            conn.close()
+        except NameError:
+            pass
 
 vincular_aluno_turma()
+
+#Como "Turma B" não pode ser convertido para um número inteiro, o Python gera um ValueError. 
+# Mas esse erro acontece antes de entrar no try, então o except nunca é executado e o programa encerra com uma mensagem de erro.
